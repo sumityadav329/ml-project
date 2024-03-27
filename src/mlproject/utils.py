@@ -3,6 +3,7 @@ import sys
 from src.mlproject.exception import CustomException
 from src.mlproject.logger import logging
 import pandas as pd
+#from sqlalchemy import create_engine
 from dotenv import load_dotenv
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import r2_score
@@ -13,13 +14,49 @@ import numpy as np
 
 load_dotenv()
 
+''''
+host = os.getenv("host")
+user = os.getenv("user")
+password = os.getenv("password")
+db = os.getenv("db")
+
+# Create SQLAlchemy engine
+engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}/{db}")
+
+# Query data using SQLAlchemy
+query = "SELECT * FROM college.`college.student`"
+df = pd.read_sql(query, engine)
+
+print(df.head())
+'''
+
 host=os.getenv("host")
 user=os.getenv("user")
 password=os.getenv("password")
 db=os.getenv('db')
 
 
+def read_sql_data():
+    logging.info("Reading SQL database started")
 
+    try:
+        mydb = pymysql.connect(
+            host=host,
+            user=user,
+            password=password,
+            db=db
+        )
+        logging.info("Connection Established")
+
+        df = pd.read_sql_query('SELECT * FROM college.`college.student`', mydb)
+
+        return df
+
+    except Exception as e:
+        raise CustomException(str(e), "Error Details")
+
+
+'''
 def read_sql_data():
     logging.info("Reading SQL database started")
     try:
@@ -29,8 +66,8 @@ def read_sql_data():
             password=password,
             db=db
         )
-        logging.info("Connection Established",mydb)
-        df=pd.read_sql_query('Select * from students',mydb)
+        logging.info("Connection Established: %s",mydb)
+        df=pd.read_sql_query('SELECT * FROM college.`college.student`',mydb)
         print(df.head())
 
         return df
@@ -38,8 +75,8 @@ def read_sql_data():
 
 
     except Exception as ex:
-        raise CustomException(ex)
-'''   
+    raise CustomException(ex)
+
 def save_object(file_path, obj):
     try:
         dir_path = os.path.dirname(file_path)

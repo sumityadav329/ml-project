@@ -7,7 +7,7 @@ from src.mlproject.components.data_ingestion import DataIngestionConfig
 
 import sys
 
-
+'''
 if __name__=="__main__":
     logging.info("The execution has started")
 
@@ -28,4 +28,15 @@ if __name__=="__main__":
     except Exception as e:
         logging.info("Custom Exception")
         #raise CustomException(e,sys)
+        raise CustomException(str(e), "Error details here")
+'''
+
+if __name__ == "__main__":
+    logging.info("The execution has started")
+
+    try:
+        data_ingestion = DataIngestion()
+        data_ingestion.initiate_data_ingestion()
+
+    except Exception as e:
         raise CustomException(str(e), "Error details here")
