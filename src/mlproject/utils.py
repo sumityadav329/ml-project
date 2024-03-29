@@ -3,7 +3,6 @@ import sys
 from src.mlproject.exception import CustomException
 from src.mlproject.logger import logging
 import pandas as pd
-#from sqlalchemy import create_engine
 from dotenv import load_dotenv
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import r2_score
@@ -39,7 +38,9 @@ def read_sql_data():
         return df
 
     except Exception as e:
-        raise CustomException(str(e), "Error Details")
+        error_details = sys.exc_info()
+        raise CustomException(str(e), sys.exc_info())
+
     
 def save_object(file_path, obj):
     try:
@@ -51,11 +52,13 @@ def save_object(file_path, obj):
             pickle.dump(obj, file_obj)
 
     except Exception as e:
-        raise CustomException(str(e), "Error Details")
+        error_details = sys.exc_info()
+        raise CustomException(str(e), sys.exc_info())
+
     
 
 
-'''
+
 def evaluate_models(X_train, y_train,X_test,y_test,models,param):
     try:
         report = {}
@@ -85,8 +88,10 @@ def evaluate_models(X_train, y_train,X_test,y_test,models,param):
         return report
 
     except Exception as e:
-        raise CustomException(e, sys)
-'''
+        error_details = sys.exc_info()
+        raise CustomException(str(e), sys.exc_info())
+
+
 
 
 '''
@@ -104,3 +109,8 @@ df = pd.read_sql(query, engine)
 
 print(df.head())
 '''
+
+
+
+
+
