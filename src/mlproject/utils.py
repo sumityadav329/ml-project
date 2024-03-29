@@ -14,21 +14,7 @@ import numpy as np
 
 load_dotenv()
 
-''''
-host = os.getenv("host")
-user = os.getenv("user")
-password = os.getenv("password")
-db = os.getenv("db")
 
-# Create SQLAlchemy engine
-engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}/{db}")
-
-# Query data using SQLAlchemy
-query = "SELECT * FROM college.`college.student`"
-df = pd.read_sql(query, engine)
-
-print(df.head())
-'''
 
 host=os.getenv("host")
 user=os.getenv("user")
@@ -54,29 +40,7 @@ def read_sql_data():
 
     except Exception as e:
         raise CustomException(str(e), "Error Details")
-
-
-'''
-def read_sql_data():
-    logging.info("Reading SQL database started")
-    try:
-        mydb=pymysql.connect(
-            host=host,
-            user=user,
-            password=password,
-            db=db
-        )
-        logging.info("Connection Established: %s",mydb)
-        df=pd.read_sql_query('SELECT * FROM college.`college.student`',mydb)
-        print(df.head())
-
-        return df
-
-
-
-    except Exception as ex:
-    raise CustomException(ex)
-
+    
 def save_object(file_path, obj):
     try:
         dir_path = os.path.dirname(file_path)
@@ -87,8 +51,11 @@ def save_object(file_path, obj):
             pickle.dump(obj, file_obj)
 
     except Exception as e:
-        raise CustomException(e, sys)
+        raise CustomException(str(e), "Error Details")
+    
 
+
+'''
 def evaluate_models(X_train, y_train,X_test,y_test,models,param):
     try:
         report = {}
@@ -119,4 +86,21 @@ def evaluate_models(X_train, y_train,X_test,y_test,models,param):
 
     except Exception as e:
         raise CustomException(e, sys)
+'''
+
+
+'''
+host = os.getenv("host")
+user = os.getenv("user")
+password = os.getenv("password")
+db = os.getenv("db")
+
+# Create SQLAlchemy engine
+engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}/{db}")
+
+# Query data using SQLAlchemy
+query = "SELECT * FROM college.`college.student`"
+df = pd.read_sql(query, engine)
+
+print(df.head())
 '''
